@@ -4,6 +4,7 @@ from api.v1.views import app_views
 from flask import Flask, make_response, jsonify, render_template
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager,jwt_required
+from flask_jwt_extended.exceptions import NoAuthorizationError, InvalidHeaderError, JWTDecodeError
 from api.v1.views.reg_sys import admin_required
 
 
@@ -27,6 +28,21 @@ def index():
 @admin_required  # This decorator ensures only admins can access this route
 def is_admin():
     return jsonify({"message": "User is an admin"}), 200
+
+# Custom handler for when the JWT is missing
+@app.errorhandler(NoAuthorizationError)
+def handle_missing_token(e):
+    return jsonify({'error': 'Authorization token is missing or invalid'}), 401
+
+# Custom handler for invalid headers (e.g., missing 'Bearer' or 'Authorization' format issues)
+@app.errorhandler(InvalidHeaderError)
+def handle_invalid_header(e):
+    return jsonify({'error': 'Invalid authorization header'}), 422
+
+# Custom handler for JWT decoding issues (e.g., malformed JWTs)
+@app.errorhandler(JWTDecodeError)
+def handle_jwt_decode_error(e):
+    return jsonify({'error': 'Malformed token. Please provide a valid JWT'}), 422
 
 @app.errorhandler(404)
 def not_found(error):

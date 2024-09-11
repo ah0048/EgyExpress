@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" registration and login authentication """
+""" registration and login authentication and admin decorator """
 from models.user import User
 from models import storage
 from api.v1.views import app_views
