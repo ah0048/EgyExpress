@@ -3,7 +3,8 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask, make_response, jsonify, render_template
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager,jwt_required
+from api.v1.views.reg_sys import admin_required
 
 
 app = Flask(__name__)
@@ -20,6 +21,12 @@ def close_db(error):
 @app.route('/')
 def index():
     return render_template('test.html')
+
+@app.route('/is_admin', methods=['GET'], strict_slashes=False)
+@jwt_required()
+@admin_required  # This decorator ensures only admins can access this route
+def is_admin():
+    return jsonify({"message": "User is an admin"}), 200
 
 @app.errorhandler(404)
 def not_found(error):

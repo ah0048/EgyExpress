@@ -15,27 +15,103 @@
 <body>
     <h1>Test Registration System</h1>
     
-    <form id="registrationForm">
+    <form id="loginForm">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email-login" name="email" required>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password-login" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="result"></div>
+    <br>
+    <button id="checkAdmin">Check if Admin</button>
+    <br>
+    <br>
+    <form id="registrationForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email-reg" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password-reg" name="password" required>
 
         <button type="submit">Register</button>
     </form>
 
-    <div id="result"></div>
-
+    <div id="adminResult"></div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();  // Prevent the default form submission
+                
+                const formData = new FormData(this);  // Collect form data
+                const json = Object.fromEntries(formData.entries());  // Convert form data to JSON
+                
+                // Fetch request to the /login route to get JWT token
+                fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(json),  // Send form data as JSON
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();  // Get JSON from the response
+                })
+                .then(data => {
+                    console.log('Login successful, token received:', data);
+                    
+                    // Store the JWT token in localStorage
+                    localStorage.setItem('accessToken', data.access_token);
+
+                    // Optionally display success message on the UI
+                    $('#result').html('<p>Login successful!</p>');
+                })
+                .catch((error) => {
+                    console.error('Error:', error.message || error);
+                    $('#result').html('<p>Error: ' + (error.message || error) + '</p>');
+                });
+            });
+
+            document.getElementById('checkAdmin').addEventListener('click', function() {
+                // Retrieve the JWT token from localStorage
+                const token = localStorage.getItem('accessToken');
+
+                // Make a request to the /is_admin route
+                fetch('/is_admin', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,  // Attach the JWT token to the Authorization header
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);  // Log the result to the console
+                    if (data.message === 'User is an admin') {
+                        $('#adminResult').html('<p>User is an admin</p>');
+                    } else {
+                        $('#adminResult').html('<p>' + data.message + '</p>');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    $('#adminResult').html('<p>Error: ' + error + '</p>');
+                });
+            });
+
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
             const json = Object.fromEntries(formData.entries());
             
-            fetch('/api/login', {
+            fetch('/api/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,6 +130,7 @@
                 $('#result').html('<p>Error: ' + (error.message || error) + '</p>');
             });
         });
-        </script>
+
+    </script>
 </body>
 </html>
