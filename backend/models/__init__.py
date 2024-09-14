@@ -1,9 +1,4 @@
-#!/usr/bin/python3
-"""
-initialize the models package
-"""
-from models.engine.db_storage import DBStorage
+from models.storage.db import DBstorage
 
-
-storage = DBStorage()
-storage.reload()
+storage = DBstorage()
+storage.setup()

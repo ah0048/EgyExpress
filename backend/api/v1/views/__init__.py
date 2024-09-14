@@ -1,8 +1,12 @@
-#!/usr/bin/python3
-""" Blueprint for API """
 from flask import Blueprint
 
-app_views = Blueprint('app_views', __name__, url_prefix='/api')
+api_v1 = Blueprint('api_v1', __name__, url_prefix='/api/v1')
 
-from api.v1.views.reg_sys import *
-from api.v1.views.profile import *
+from api.v1.views.users import *
+from api.v1.views.orders import *
+from api.v1.views.cart import *
+from api.v1.views.category import *
+from api.v1.views.subcategory import *
+from api.v1.views.Reviews import *
+from api.v1.views.authentication import *
+from api.v1.views.refresh import *
