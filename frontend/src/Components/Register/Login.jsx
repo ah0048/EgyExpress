@@ -17,7 +17,7 @@ function Login() {
     e.preventDefault();
     try {
       const data = await login({ email, password });
-      dispatch(loginAction({ token: data.token }));
+      dispatch(loginAction({ token: data.access_token, refreshToken: data.refresh_token}));
       dispatch(setUser({ username: data.username }));
       navigate("/about");
     } catch (err) {

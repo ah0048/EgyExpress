@@ -13,7 +13,7 @@ function ProductDtials() {
   const api_url = "https://fakestoreapi.com/products";
   const [product, setProduct] = useState({});
   const [counter, setCounter] = useState(1);
-  const post_url = "http://localhost:5000/cart";
+  const post_url = "http://localhost:5000/api/cart";
   useEffect(() => {
     fetch(`${api_url}/${params.productId}`)
       .then((res) => res.json())
