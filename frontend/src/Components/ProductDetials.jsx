@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { addItemToCart } from "../state/cartSlice";
 import { useSelector } from "react-redux";
 import "../css/ProdcutDetials.css";
+import { fetchWithAuth } from "../http";
 function ProductDtials() {
   const params = useParams();
   const dispatch = useDispatch();
@@ -32,20 +33,22 @@ function ProductDtials() {
     };
   }
 
+  const cartItem = {
+    product_id: product.id,
+    quantity: counter,
+    price: product.price * counter,
+  };
+
+  const options = {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+    },
+    body:cartItem,
+  }
   const handleAddToCart = ()=>{
-    const cartItem = {
-      product_id: product.id,
-      quantity: counter,
-      price: product.price * counter,
-    };
     dispatch(addItemToCart(cartItem));
-    fetch(post_url,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-      },
-      body:JSON.stringify(cartItem),
-    }).then((res)=>res.json()).then((data)=>{
+    fetchWithAuth(post_url, options).then((data)=>{
       console.log(data);
     }).catch((error)=>{
       console.error('error');

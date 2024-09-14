@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../css/Cart.css";
 function Cart() {
-  const url_api = "http://localhost:5000/cart";
+  const url_api = "http://localhost:5000/api/cart";
   const options = {
     method: "GET",
     headers: {
@@ -15,15 +15,17 @@ function Cart() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
   useEffect(() => {
-    fetch(url_api, options).then((data)=>data.json()).then((data) => setCartItems(data)).catch((error)=>{console.error('error fetching');
+    fetchWithAuth(url_api, options).then((data) => setCartItems(data)).catch((error)=>{console.error('error fetching');
     setError(error.message);
     });
   }, []);
   const handleOrder = ()=>{
-    if(cartItems.length === 0 )
-        return;
+    if(cartItems.length === 0 )  
+      return;
     navigate('/order');
   }
+  console.log("data of cartItems")
+  console.log(cartItems)
   return (
     <>
       <div className="cart_page">

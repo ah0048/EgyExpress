@@ -28,6 +28,7 @@ try {
       ...options.headers,
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify(options.body),
   });
 
   if(response.status === 401){

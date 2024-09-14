@@ -16,7 +16,7 @@ def get_Cart():
         if cart is None:
             return jsonify({"error": "Cart not found"}), 404
         if len(cart.cart_item) == 0:
-            return jsonify({"error": "Cart is empty"})
+            return jsonify([])
         for item in cart.cart_item:
             product_id = item.product_id
             price = item.price
