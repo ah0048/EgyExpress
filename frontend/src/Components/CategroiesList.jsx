@@ -1,33 +1,42 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Category from "./Category";
 import "../css/CategroiesList.css";
+
 function CategroiesList() {
-  const [Categories, setCategories] = useState([]);
-  const api_url = "https://fakestoreapi.com/products/categories";
-  useEffect(()=>{
+  const [categories, setCategories] = useState([]);
+  const api_url = "http://localhost:5000/api/categories";
+
+  useEffect(() => {
     fetch(api_url)
-    .then((res)=>res.json()).then((data)=>setCategories(data));
+      .then((res) => {
+        if (!res.ok) {
+          return res.text().then(text => { throw new Error(text) });
+        }
+        return res.json();
+      })
+      .then((data) => setCategories(data))
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
   }, []);
-  const handleClick = (category)=>{
+
+  const handleClick = (category) => {
     console.log(category);
-  }
+  };
+
+  console.log(categories);
+
   return (
     <div className="categories">
-
-        {Categories.map((category) => {
-          return (
-            <>
-              <h1 className="big_title">{category}</h1>
-              <hr />
-
-
-                    <Category category={category} />
-            </>
-          );
-        })}
-
+      {categories.map((category) => (
+        <div key={category.id}>
+          <h1 className="big_title">{category.name}</h1>
+          <hr />
+          <Category category={category.id} />
+        </div>
+      ))}
     </div>
   );
 }
+
 export default CategroiesList;

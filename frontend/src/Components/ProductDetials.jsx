@@ -6,14 +6,15 @@ import { useDispatch } from "react-redux";
 import { addItemToCart } from "../state/cartSlice";
 import { useSelector } from "react-redux";
 import "../css/ProdcutDetials.css";
+import { fetchWithAuth } from "../http";
 function ProductDtials() {
   const params = useParams();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const api_url = "https://fakestoreapi.com/products";
+  const api_url = "http://127.0.0.1:5000/api/product";
   const [product, setProduct] = useState({});
   const [counter, setCounter] = useState(1);
-  const post_url = "http://localhost:5000/cart";
+  const post_url = "http://localhost:5000/api/cart";
   useEffect(() => {
     fetch(`${api_url}/${params.productId}`)
       .then((res) => res.json())
@@ -32,20 +33,22 @@ function ProductDtials() {
     };
   }
 
+  const cartItem = {
+    product_id: product.id,
+    quantity: counter,
+    price: product.price * counter,
+  };
+
+  const options = {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+    },
+    body:cartItem,
+  }
   const handleAddToCart = ()=>{
-    const cartItem = {
-      product_id: product.id,
-      quantity: counter,
-      price: product.price * counter,
-    };
     dispatch(addItemToCart(cartItem));
-    fetch(post_url,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-      },
-      body:JSON.stringify(cartItem),
-    }).then((res)=>res.json()).then((data)=>{
+    fetchWithAuth(post_url, options).then((data)=>{
       console.log(data);
     }).catch((error)=>{
       console.error('error');

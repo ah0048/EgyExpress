@@ -9,12 +9,15 @@ import { Navigation, Pagination } from "swiper/modules";
 import { Link } from "react-router-dom";
 SwiperCore.use([Navigation, Pagination]);
 function Category(props) {
-  const categoryName = props.category;
+  const category_id = props.category;
+  console.log(props);
+  console.log(category_id);
   const [categoryProducts, setCcategoryProducts] = useState([]);
-  const api_url = "https://fakestoreapi.com/products/category";
-
+  const api_url = "http://localhost:5000/api/products/categories";
+  const theUrl = `${api_url}/${category_id}`;
+  console.log(theUrl);
   useEffect(() => {
-    fetch(`${api_url}/${categoryName}`)
+    fetch(`${api_url}/${category_id}`)
       .then((res) => res.json())
       .then((data) => setCcategoryProducts(data));
   }, []);
@@ -37,11 +40,11 @@ function Category(props) {
                     <Link aria-current="page" to={`/product/${product.id}`} className="card-link">
                       <img
                         src={product.image}
-                        alt={product.title}
+                        alt={product.name}
                         className="card-image"
                       />
                       <p className="product_breif_info">
-                        <h3 className="product_title">{product.title}</h3>
+                        <h3 className="product_title">{product.name}</h3>
                         <p className="product_price">Price: {product.price}</p>
                         <button className="card-button">
                           <span className="material-icons arrow-icon">
