@@ -14,7 +14,7 @@ def get_Cart():
         user = storage.get("User", user_id)
         cart = storage.filter_one("Cart", user_id=user_id)
         if cart is None:
-            return jsonify({"error": "Cart not found"}), 404
+            return jsonify([]), 404
         if len(cart.cart_item) == 0:
             return jsonify([])
         for item in cart.cart_item:

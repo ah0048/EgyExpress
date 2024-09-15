@@ -1,3 +1,4 @@
+
 export async function register(userData) {
   const response = await fetch("http://localhost:5000/api/signup", {
     method: "POST",
@@ -83,34 +84,3 @@ export async function login(credentials) {
 
   return response.json();
 }
-// export async function login(credentials) {
-//   // Fetch all users
-//   const response = await fetch("http://localhost:5000/users", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-
-//   if (!response.ok) {
-//     throw new Error("Failed to fetch users");
-//   }
-
-//   const users = await response.json();
-// console.log(users);
-// console.log("--------------");
-// console.log(credentials);
-//   // Compare credentials
-//   const user = users.find(
-//     (user) =>
-//       user.email === credentials.email && user.password === credentials.password
-//   );
-
-// //   if (user) {
-// //     // Return mock token if credentials match
-// //     return { token: "mock-jwt-token" };
-    
-// //   } else {
-// //     throw new Error("Invalid credentials");
-// //   }
-// // }
