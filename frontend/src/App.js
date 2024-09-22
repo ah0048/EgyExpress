@@ -14,6 +14,9 @@ import Profile from './Components/Profile';
 import Order from './Components/Order';
 import Tracking from './Components/Tracking';
 import CategroiesList from './Components/CategroiesList'
+import EditAcc from "./Components/EditAcc"
+import ChangePassword from './Components/ChangePassword';
+import DeleteAcount from './Components/Register/DeleteAcount';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -74,6 +77,18 @@ const router = createBrowserRouter([
       {
         path: "categories",
         element: <CategroiesList />,
+      },
+      {
+        path: "edit-account",
+        element: <EditAcc />,
+      },
+      {
+        path: "change-password",
+        element: <ChangePassword />,
+      },
+      {
+        path: "delete-acount",
+        element: <DeleteAcount/>,
       },
     ],
   },

@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { fetchWithAuth } from "../http.js";
+import Logout from "./Register/Logout";
+import "../css/Profile.css";
 const Profile = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-
+  const api_url = "http://localhost:5000/api/profile";
+  const options={
+    method:"GET",
+    headers:{
+      "Content-Type":"application/json",
+    },
+  }
   // Fetch user profile data from API
   useEffect(() => {
-    ftech('/api/profile') // Assuming '/api/profile' is your endpoint
-      .then((res)=>(res.json()).then((data)=>setUserData(data))
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-      });
+    fetchWithAuth(api_url,options)
+    .then((data) =>
+      setUserData(data)
+    );
   }, []);
 
   if (!userData) {
     return <div>Loading...</div>; // Show a loading state while data is being fetched
   }
-
+  console.log("User data:");
+  console.log(userData);
   // Navigate to orders page
   const handleOrdersClick = () => {
     navigate('/orders');
@@ -32,21 +40,27 @@ const Profile = () => {
   const handleEditAccountClick = () => {
     navigate('/edit-account');
   };
-
+ const deleteacount = ()=>{
+navigate("/delete-acount");
+ }
   return (
     <div className="profile-container">
       <h1>Profile</h1>
 
       {/* Display User Information */}
       <div className="profile-info">
-        <img
-          src={userData.img} // Assuming `profileImage` is the key for the user's image URL
-          alt={`${userData.firstName} ${userData.lastName}`}
-          className="profile-image"
-        />
-        <h2>{userData.firstName} {userData.lastName}</h2>
-        <p><strong>Email:</strong> {userData.email}</p>
-        <p><strong>Address:</strong> {userData.address}</p>
+        <h2>
+          {userData.first_name} {userData.last_name}
+        </h2>
+        <p>
+          <strong>Email:</strong> {userData.email}
+        </p>
+        <p>
+          <strong>Phone Number:</strong> {userData.phone_number}
+        </p>
+        <p>
+          <strong>Address:</strong> {userData.address}
+        </p>
       </div>
 
       {/* Orders Button */}
@@ -64,6 +78,10 @@ const Profile = () => {
         <button className="btn" onClick={handleEditAccountClick}>
           Edit Account Info
         </button>
+       <Logout/>
+       <button className="delete" onClick={deleteacount}>
+        Delete Account
+       </button>
       </div>
     </div>
   );

@@ -12,3 +12,4 @@ from api.v1.views.Reviews import *
 from api.v1.views.authentication import *
 from api.v1.views.refresh import *
 from api.v1.views.product import *
+from api.v1.views.pofile import *
