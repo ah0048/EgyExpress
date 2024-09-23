@@ -17,10 +17,8 @@ const dispatch = useDispatch();
           "http://localhost:5000//api/profile/delete",
           options
         );
-        if (response.ok) {
-            dispatch(logout());
-            dispatch(clearUser());
-        }
+        dispatch(logout());
+        dispatch(clearUser());
         naviagte("/");
     }
 return(
