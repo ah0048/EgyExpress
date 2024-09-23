@@ -7,7 +7,10 @@ import { addItemToCart } from "../../state/cartSlice";
 import { useSelector } from "react-redux";
 import "./ProdcutDetials.css";
 import { fetchWithAuth } from "../../http";
+import Review from "../Review/Review";
+import ShowReview from "../Review/ShowReview";
 function ProductDtials() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const params = useParams();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -21,7 +24,7 @@ function ProductDtials() {
       .then((data) => setProduct(data));
   }, []);
   useEffect(() => {
-    console.log("cat item cahnged");
+    console.log("cart item changed");
     console.log(cartItems);
   }, [cartItems]);
  const handleinc = ()=>{
@@ -54,7 +57,9 @@ function ProductDtials() {
       console.error('error');
     });
     }
-  
+  const toggleModal = () => {
+      setIsModalOpen(!isModalOpen);
+    };
   console.log(product);
   console.log("-------");
   return (
@@ -78,12 +83,12 @@ function ProductDtials() {
             Add to Cart
           </button>
         </div>
-        <Link to="/add-review">
-          <button className="AddBtn" >
+          <button className="AddBtn" onClick={toggleModal} >
            Add review
           </button>
-        </Link>
+          {isModalOpen && <Review onClose={toggleModal} isOpen={isModalOpen} productId={product.id}/>}
       </div>
+      <ShowReview product={product.id}/>
     </div>
   );
 }

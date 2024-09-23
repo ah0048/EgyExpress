@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Review.css";
 import { fetchWithAuth } from "../../http";
-const Review = ({ isOpen, onClose }) => {
+const Review = ({ isOpen, onClose, productId }) => {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState('');
   const [error, setError] = useState('');
@@ -22,21 +22,21 @@ const Review = ({ isOpen, onClose }) => {
 
     // Prepare the data for the API call
     const reviewData = {
-        product_id: null,  // You can set the actual product ID here
+        product_id: productId,  // You can set the actual product ID here
         description: review,
         rate: rating,
     };
-
     try {
         // Send POST request to the API
-        const response = fetchWithAuth('/api/review', {
+        const response = fetchWithAuth('http://localhost:5000/api/reviews', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: reviewData,
         });
-    
+        console.log("review data");
+        console.log(reviewData);
         if (response.ok) {
           // Clear fields and close modal if successful
           console.log("Review submitted successfully");
