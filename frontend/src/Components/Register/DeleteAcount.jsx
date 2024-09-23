@@ -16,7 +16,7 @@ const dispatch = useDispatch();
         const response = await fetchWithAuth(
           "http://localhost:5000//api/profile/delete",
           options
-        ); 
+        );
         dispatch(logout());
         dispatch(clearUser());
         naviagte("/");
