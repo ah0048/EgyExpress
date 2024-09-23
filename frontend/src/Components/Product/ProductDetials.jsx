@@ -17,6 +17,7 @@ function ProductDtials() {
   const api_url = "http://127.0.0.1:5000/api/product";
   const [product, setProduct] = useState({});
   const [counter, setCounter] = useState(1);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const post_url = "http://localhost:5000/api/cart";
   useEffect(() => {
     fetch(`${api_url}/${params.productId}`)
@@ -51,6 +52,10 @@ function ProductDtials() {
   }
   const handleAddToCart = ()=>{
     dispatch(addItemToCart(cartItem));
+    if (!isAuthenticated) {
+      alert("You are not logged in");
+      return;
+    }
     fetchWithAuth(post_url, options).then((data)=>{
       console.log(data);
     }).catch((error)=>{
@@ -83,9 +88,9 @@ function ProductDtials() {
             Add to Cart
           </button>
         </div>
-          <button className="AddBtn" onClick={toggleModal} >
+          {isAuthenticated && <button className="AddBtn" onClick={toggleModal} >
            Add review
-          </button>
+          </button>}
           {isModalOpen && <Review onClose={toggleModal} isOpen={isModalOpen} productId={product.id}/>}
       </div>
       <ShowReview product={product.id}/>

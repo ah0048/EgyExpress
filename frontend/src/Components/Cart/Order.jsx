@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./Order.css"
 function Order() {
-  const url_api = "http://localhost:5000/order";
+  const url_api = "http://localhost:5000/api/order";
   const navigate = useNavigate();
   const orderitems = useSelector((state)=>state.cart.cartItems);
   const [error, setError] = useState(null);
