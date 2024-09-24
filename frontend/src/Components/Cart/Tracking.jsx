@@ -12,7 +12,7 @@ function Tracking() {
     },
   };
   useEffect(() => {
-    fetchWithAuth(url, options).then((data) => setOrders(data)).catch((error) => {
+    fetchWithAuth(url, options).then((data) => setOrders(data)).then((data)=>console.log(data)).catch((error) => {
       console.error('Error fetching orders:', error);});
   }, []);
 

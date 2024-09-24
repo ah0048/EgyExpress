@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./Order.css"
 function Order() {
-  const url_api = "http://localhost:5000/api/order";
+  const url_api = "http://localhost:5000/api/orders";
   const navigate = useNavigate();
   const orderitems = useSelector((state)=>state.cart.cartItems);
   const [error, setError] = useState(null);
@@ -31,12 +31,11 @@ function Order() {
           delivery_address: address,
           total_price: total,
         };
-        fetch(url_api, {
+        fetchWithAuth(url_api, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(order_mi_item),
+          body: order_mi_item,
         })
-          .then((res) => res.json())
           .then((data) => {
             console.log(data);
           })

@@ -16,7 +16,7 @@ class Product(BaseModel, base):
 	__tablename__ = 'products'
 	name: Mapped['str'] = mapped_column(String(2000), nullable=False)
 	image: Mapped['str'] = mapped_column(String(100), nullable=False)	
-	description: Mapped['str'] = mapped_column(String(2000), nullable=False)
+	description: Mapped['str'] = mapped_column(String(4000), nullable=False)
 	quantity: Mapped['int'] = mapped_column(Integer, nullable=False)
 	price: Mapped['float'] = mapped_column(Float, nullable=False)
 	category_id: Mapped['str'] = mapped_column(String(60), ForeignKey('categories.id'),nullable=False)

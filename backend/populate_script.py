@@ -64,16 +64,21 @@ for product_data in fake_store_products:
     discount_id = random.choice(discounts)
 
     # Create the product
-    product = Product(
-        name=product_data['title'],
-        image=product_data['image'],
-        description=product_data['description'],
-        quantity=faker.random_int(min=1, max=100),  # Generate quantity
-        price=float(product_data['price']),
-        category_id=category_id,
-        subcategory_id=subcategory_id,
-        discount_id=discount_id
-    )
-    product.save()
+    try:
+        product = Product(
+            name=product_data['title'],
+            image=product_data['image'],
+            description="product_data['description']",
+            quantity=faker.random_int(min=1, max=100),  # Generate quantity
+            price=float(product_data['price']),
+            category_id=category_id,
+            subcategory_id=subcategory_id,
+            discount_id=discount_id
+        )
+        product.save()
+    except Exception as e:
+        storage.roll()
+        print(e)
+
 
 # Now you have populated categories, subcategories, discounts, and products!

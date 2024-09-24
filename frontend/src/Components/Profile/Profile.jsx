@@ -25,7 +25,7 @@ const Profile = () => {
   console.log(userData);
   // Navigate to orders page
   const handleOrdersClick = () => {
-    navigate("/orders");
+    navigate("/tracking");
   };
 
   // Navigate to change password page
