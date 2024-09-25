@@ -42,6 +42,7 @@ const Profile = () => {
   };
   return (
     <div className="profile-container">
+      <div className="profile-continer-centered">
       <h1>Profile</h1>
 
       {/* Display User Information */}
@@ -62,23 +63,24 @@ const Profile = () => {
 
       {/* Orders Button */}
       <div className="profile-actions">
-        <button className="btn" onClick={handleOrdersClick}>
+        <button className="profile-btn" onClick={handleOrdersClick}>
           View Current Orders
         </button>
 
         {/* Change Password Button */}
-        <button className="btn" onClick={handleChangePasswordClick}>
+        <button className="profile-btn" onClick={handleChangePasswordClick}>
           Change Password
         </button>
 
         {/* Edit Account Information Button */}
-        <button className="btn" onClick={handleEditAccountClick}>
+        <button className="profile-btn" onClick={handleEditAccountClick}>
           Edit Account Info
         </button>
         <Logout />
         <button className="delete" onClick={deleteacount}>
           Delete Account
         </button>
+      </div>
       </div>
     </div>
   );

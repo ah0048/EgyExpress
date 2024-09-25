@@ -12,13 +12,11 @@ function Cart() {
     },
   };
   const [cartItems, setCartItems] = useState([]);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
   useEffect(() => {
-    fetchWithAuth(url_api, options).then((data) => setCartItems(data)).catch((error)=>{console.error('error fetching');
-    setError(error.message);
-    });
-  }, []);
+    fetchWithAuth(url_api, options)
+      .then((data) => setCartItems(data))
+    }, []);
   const handleOrder = ()=>{
     if(cartItems.length === 0 )  
       return;
@@ -30,9 +28,7 @@ function Cart() {
     <>
       <div className="cart_page">
         <div className="cart_items">
-          {error ? (
-            <h2>{error}</h2>
-          ) : cartItems.length === 0 ? (
+          {cartItems.length === 0 ? (
             <h2>Cart is empty</h2>
           ) : (
             cartItems.map((item) => (

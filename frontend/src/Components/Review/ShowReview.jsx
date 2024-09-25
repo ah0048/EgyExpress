@@ -18,7 +18,7 @@ function ShowReview(props) {
    console.log(product_id)
   return (
     <>
-      <h1>Review</h1>
+      <h1 style={{ textAlign: "center" }}>Reviews</h1>
       {reviews.map((review, index) => (
         <div key={index} className="review-box">
           <h2>{review.user_name}</h2>

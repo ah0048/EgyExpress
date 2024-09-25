@@ -1,8 +1,8 @@
 .about-container {
   padding: 20px;
   text-align: center;
-  background-color: #3E2723; /* Dark brown background to match the theme */
-  color: #FBC02D; /* Golden yellow text for visibility */
+  background:url("../assests/gray_back.jpg"); /* Dark brown background to match the theme */
+  color: #e6e6e6; /* Golden yellow text for visibility */
   min-height: 100vh;
   opacity: 0;
   transform: translateY(20px);
