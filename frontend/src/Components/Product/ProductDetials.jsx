@@ -19,6 +19,7 @@ function ProductDtials() {
   const [product, setProduct] = useState({});
   const [counter, setCounter] = useState(1);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [isMessageVisible, setIsMessageVisible] = useState(false);
   const post_url = "http://localhost:5000/api/cart";
 
   useEffect(() => {
@@ -53,7 +54,7 @@ function ProductDtials() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(cartItem),
+    body: cartItem,
   };
 
   const handleAddToCart = () => {
@@ -65,10 +66,19 @@ function ProductDtials() {
     fetchWithAuth(post_url, options)
       .then((data) => {
         console.log(data);
+        setIsMessageVisible(true);
+        setTimeout(() => {
+          setIsMessageVisible(false);
+        }, 3000);
       })
       .catch((error) => {
         console.error("error");
       });
+
+  };
+
+  const handleCloseMessage = () => {
+    setIsMessageVisible(false);
   };
 
   const toggleModal = () => {
@@ -109,6 +119,15 @@ function ProductDtials() {
               isOpen={isModalOpen}
               productId={product.id}
             />
+          )}
+          {isMessageVisible && (
+            <div className="popout-message">
+              <span>The product has been added to your cart successfully</span>
+              <button className="close-btn" onClick={handleCloseMessage}>
+                Close
+                &times;
+              </button>
+            </div>
           )}
         </div>
       </div>
